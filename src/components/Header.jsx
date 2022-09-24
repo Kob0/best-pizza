@@ -1,14 +1,16 @@
 import React from 'react';
 
+import logoSvg from '../assets/img/pizza-logo.svg';
+
 export default function Header() {
   return (
     <div className="header">
       <div className="container">
         <div className="header__logo">
-          <img width="38" src="./img/pizzaLogo.svg" alt="Pizza logo" />
+          <img width="38" src={logoSvg} alt="Pizza logo" />
           <div>
-            <h1>React Pizza</h1>
-            <p>самая вкусная пицца во вселенной</p>
+            <h1>Best Pizza</h1>
+            <p>самая лучшая пицца в твоем городе</p>
           </div>
         </div>
         <div className="header__cart">
