@@ -7,8 +7,8 @@ export default function Sort() {
   const list = ['популярности', 'цене', 'алфавиту'];
 
   const onClickCategory = (index) => {
-    setPopupVisibility(false);
     setSelected(index);
+    setPopupVisibility(false);
   };
 
   return (
