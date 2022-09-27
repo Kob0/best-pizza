@@ -16,8 +16,9 @@ const Home = () => {
       .then((res) => res.json())
       .then((arr) => {
         setItems(arr);
+        setIsLoading(false);
       });
-    setIsLoading(false);
+    window.scrollTo(0, 0);
   }, []);
 
   return (
