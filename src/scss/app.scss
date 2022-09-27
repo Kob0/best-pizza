@@ -42,13 +42,10 @@ body {
     justify-content: space-between;
 
     @media (max-width: 1259.98px) {
-      justify-content: space-around;
-      ul {
-        flex-direction: column;
-      }
+      flex-direction: column;
 
       .categories {
-        margin-bottom: 30px;
+        margin-top: 30px;
       }
     }
 
