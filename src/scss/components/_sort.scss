@@ -16,8 +16,20 @@
 
     span {
       color: $orange;
-      border-bottom: 1px dashed $orange;
       cursor: pointer;
+    }
+
+    button {
+      width: 15px;
+      margin-left: 10px;
+    }
+
+    .sort__ascending:before {
+      content: '\21D1';
+    }
+
+    .sort__descending:before {
+      content: '\21D3';
     }
   }
 
