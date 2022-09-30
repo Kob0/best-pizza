@@ -3,14 +3,23 @@ import React from 'react';
 export default function Sort({ value, onChangeSort }) {
   const [popupVisibility, setPopupVisibility] = React.useState(false);
 
-  const sortProps = [
-    { name: 'популярности', sortType: 'rating', sortOrder: 'asc' },
-    { name: 'цене', sortType: 'price', sortOrder: 'asc' },
-    { name: 'алфавиту', sortType: 'title', sortOrder: 'asc' },
+  const sortData = [
+    { name: 'популярности', type: 'rating', order: 'asc' },
+    { name: 'цене', type: 'price', order: 'asc' },
+    { name: 'алфавиту', type: 'title', order: 'asc' },
   ];
 
-  const onClickCategory = (i) => {
-    onChangeSort(i);
+  // const ascOrDesc = sortData.order === 'asc' ? 'sort__ascending' : 'sort__descending';
+
+  // const handleSortOrder = () => {
+  //   const newSortData = { ...sortData };
+  //   newSortData.order === 'asc'
+  //     ? (newSortData.order = 'desc')
+  //     : (newSortData.order = 'asc');
+  // };
+
+  const onClickCategory = (data) => {
+    onChangeSort(data);
     setPopupVisibility(false);
   };
 
@@ -31,15 +40,16 @@ export default function Sort({ value, onChangeSort }) {
         </svg>
         <b>Сортировка по:</b>
         <span onClick={() => setPopupVisibility(!popupVisibility)}>{value.name}</span>
+        {/* <button className={ascOrDesc} onClick={() => handleSortOrder()}></button> */}
       </div>
       {popupVisibility && (
         <div className="sort__popup">
           <ul>
-            {sortProps.map((prop, i) => (
+            {sortData.map((prop, i) => (
               <li
                 key={i}
                 onClick={() => onClickCategory(prop)}
-                className={value.sortType === prop.sortType ? 'active' : ''}
+                className={value.type === prop.type ? 'active' : ''}
               >
                 {prop.name}
               </li>

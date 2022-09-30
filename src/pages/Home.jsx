@@ -11,18 +11,19 @@ const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
-  const [sortProps, setSortProps] = React.useState({
+  const [sortData, setSortData] = React.useState({
     name: 'популярности',
-    sortType: 'rating',
-    sortOrder: 'asc',
+    type: 'rating',
+    order: 'asc',
   });
 
+  console.log(sortData);
   const category = categoryId > 0 ? categoryId : '';
 
   React.useEffect(() => {
     setIsLoading(true);
     fetch(
-      `https://63320c8ca54a0e83d24b5292.mockapi.io/items?category=${category}&sortBy=${sortProps.sortType}`,
+      `https://63320c8ca54a0e83d24b5292.mockapi.io/items?category=${category}&sortBy=${sortData.type}&order=${sortData.order}`,
     )
       .then((res) => res.json())
       .then((arr) => {
@@ -30,7 +31,7 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [category, sortProps]);
+  }, [category, sortData]);
 
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
   const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
@@ -39,7 +40,7 @@ const Home = () => {
     <>
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={(id) => setCategoryId(id)} />
-        <Sort value={sortProps} onChangeSort={(i) => setSortProps(i)} />
+        <Sort value={sortData} onChangeSort={(data) => setSortData(data)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
