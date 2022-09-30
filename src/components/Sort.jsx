@@ -1,13 +1,16 @@
 import React from 'react';
 
-export default function Sort() {
+export default function Sort({ value, onChangeSort }) {
   const [popupVisibility, setPopupVisibility] = React.useState(false);
-  const [selected, setSelected] = React.useState(0);
 
-  const list = ['популярности', 'цене', 'алфавиту'];
+  const sortProps = [
+    { name: 'популярности', sortType: 'rating', sortOrder: 'asc' },
+    { name: 'цене', sortType: 'price', sortOrder: 'asc' },
+    { name: 'алфавиту', sortType: 'title', sortOrder: 'asc' },
+  ];
 
-  const onClickCategory = (index) => {
-    setSelected(index);
+  const onClickCategory = (i) => {
+    onChangeSort(i);
     setPopupVisibility(false);
   };
 
@@ -27,18 +30,18 @@ export default function Sort() {
           ></path>
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupVisibility(!popupVisibility)}>{list[selected]}</span>
+        <span onClick={() => setPopupVisibility(!popupVisibility)}>{value.name}</span>
       </div>
       {popupVisibility && (
         <div className="sort__popup">
           <ul>
-            {list.map((name, i) => (
+            {sortProps.map((prop, i) => (
               <li
                 key={i}
-                onClick={() => onClickCategory(i)}
-                className={selected === i ? 'active' : ''}
+                onClick={() => onClickCategory(prop)}
+                className={value.sortType === prop.sortType ? 'active' : ''}
               >
-                {name}
+                {prop.name}
               </li>
             ))}
           </ul>
