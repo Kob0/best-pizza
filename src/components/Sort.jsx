@@ -5,10 +5,10 @@ export default function Sort({ value, onChangeSort }) {
 
   const sortData = [
     { name: 'популярности (убывание)', sortType: 'rating' },
-    { name: 'популярности (ворзастание)', sortType: '-rating' },
-    { name: 'цене (ворзастание)', sortType: 'price' },
+    { name: 'популярности (возрастание)', sortType: '-rating' },
+    { name: 'цене (возрастание)', sortType: 'price' },
     { name: 'цене (убывание)', sortType: '-price' },
-    { name: 'алфавиту (ворзастание)', sortType: 'title' },
+    { name: 'алфавиту (возрастание)', sortType: 'title' },
     { name: 'алфавиту (убывание)', sortType: '-title' },
   ];
 
