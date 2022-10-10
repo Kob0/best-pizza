@@ -13,17 +13,19 @@ const Home = () => {
   const [categoryId, setCategoryId] = React.useState(0);
   const [sortData, setSortData] = React.useState({
     name: 'популярности',
-    type: 'rating',
-    order: 'asc',
+    sortType: 'rating',
   });
 
-  console.log(sortData);
-  const category = categoryId > 0 ? categoryId : '';
+  const category = categoryId > 0 ? `category=${categoryId}` : '';
 
   React.useEffect(() => {
     setIsLoading(true);
+
+    const sortOrder = sortData.sortType.includes('-') ? 'desc' : 'asc';
+    const sortBy = sortData.sortType.replace('-', '');
+
     fetch(
-      `https://63320c8ca54a0e83d24b5292.mockapi.io/items?category=${category}&sortBy=${sortData.type}&order=${sortData.order}`,
+      `https://633ad404e02b9b64c6187dd2.mockapi.io/pizzas?${category}&sortBy=${sortBy}&order=${sortOrder}`,
     )
       .then((res) => res.json())
       .then((arr) => {
