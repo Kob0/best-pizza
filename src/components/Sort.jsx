@@ -4,19 +4,13 @@ export default function Sort({ value, onChangeSort }) {
   const [popupVisibility, setPopupVisibility] = React.useState(false);
 
   const sortData = [
-    { name: 'популярности', type: 'rating', order: 'asc' },
-    { name: 'цене', type: 'price', order: 'asc' },
-    { name: 'алфавиту', type: 'title', order: 'asc' },
+    { name: 'популярности (убывание)', sortType: 'rating' },
+    { name: 'популярности (ворзастание)', sortType: '-rating' },
+    { name: 'цене (ворзастание)', sortType: 'price' },
+    { name: 'цене (убывание)', sortType: '-price' },
+    { name: 'алфавиту (ворзастание)', sortType: 'title' },
+    { name: 'алфавиту (убывание)', sortType: '-title' },
   ];
-
-  // const ascOrDesc = sortData.order === 'asc' ? 'sort__ascending' : 'sort__descending';
-
-  // const handleSortOrder = () => {
-  //   const newSortData = { ...sortData };
-  //   newSortData.order === 'asc'
-  //     ? (newSortData.order = 'desc')
-  //     : (newSortData.order = 'asc');
-  // };
 
   const onClickCategory = (data) => {
     onChangeSort(data);
@@ -31,16 +25,13 @@ export default function Sort({ value, onChangeSort }) {
           height="6"
           viewBox="0 0 10 6"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+          xmlns="http://www.w3.org/2000/svg">
           <path
             d="M10 5C10 5.16927 9.93815 5.31576 9.81445 5.43945C9.69075 5.56315 9.54427 5.625 9.375 5.625H0.625C0.455729 5.625 0.309245 5.56315 0.185547 5.43945C0.061849 5.31576 0 5.16927 0 5C0 4.83073 0.061849 4.68424 0.185547 4.56055L4.56055 0.185547C4.68424 0.061849 4.83073 0 5 0C5.16927 0 5.31576 0.061849 5.43945 0.185547L9.81445 4.56055C9.93815 4.68424 10 4.83073 10 5Z"
-            fill="#2C2C2C"
-          ></path>
+            fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
         <span onClick={() => setPopupVisibility(!popupVisibility)}>{value.name}</span>
-        {/* <button className={ascOrDesc} onClick={() => handleSortOrder()}></button> */}
       </div>
       {popupVisibility && (
         <div className="sort__popup">
@@ -49,8 +40,7 @@ export default function Sort({ value, onChangeSort }) {
               <li
                 key={i}
                 onClick={() => onClickCategory(prop)}
-                className={value.type === prop.type ? 'active' : ''}
-              >
+                className={value.sortType === prop.sortType ? 'active' : ''}>
                 {prop.name}
               </li>
             ))}
