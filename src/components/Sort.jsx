@@ -1,19 +1,24 @@
 import React from 'react';
 
-export default function Sort({ value, onChangeSort }) {
+import { useDispatch, useSelector } from 'react-redux';
+import { setSortData } from '../Redux/slices/filterSlice';
+
+const sortProps = [
+  { name: 'популярности (убывание)', sortType: 'rating' },
+  { name: 'популярности (возрастание)', sortType: '-rating' },
+  { name: 'цене (возрастание)', sortType: 'price' },
+  { name: 'цене (убывание)', sortType: '-price' },
+  { name: 'алфавиту (возрастание)', sortType: 'title' },
+  { name: 'алфавиту (убывание)', sortType: '-title' },
+];
+
+export default function Sort() {
+  const dispatch = useDispatch();
+  const sortData = useSelector((state) => state.filter.sortData);
   const [popupVisibility, setPopupVisibility] = React.useState(false);
 
-  const sortData = [
-    { name: 'популярности (убывание)', sortType: 'rating' },
-    { name: 'популярности (возрастание)', sortType: '-rating' },
-    { name: 'цене (возрастание)', sortType: 'price' },
-    { name: 'цене (убывание)', sortType: '-price' },
-    { name: 'алфавиту (возрастание)', sortType: 'title' },
-    { name: 'алфавиту (убывание)', sortType: '-title' },
-  ];
-
   const onClickCategory = (data) => {
-    onChangeSort(data);
+    dispatch(setSortData(data));
     setPopupVisibility(false);
   };
 
@@ -31,16 +36,16 @@ export default function Sort({ value, onChangeSort }) {
             fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupVisibility(!popupVisibility)}>{value.name}</span>
+        <span onClick={() => setPopupVisibility(!popupVisibility)}>{sortData.name}</span>
       </div>
       {popupVisibility && (
         <div className="sort__popup">
           <ul>
-            {sortData.map((prop, i) => (
+            {sortProps.map((prop, i) => (
               <li
                 key={i}
                 onClick={() => onClickCategory(prop)}
-                className={value.sortType === prop.sortType ? 'active' : ''}>
+                className={sortData.sortType === prop.sortType ? 'active' : ''}>
                 {prop.name}
               </li>
             ))}
