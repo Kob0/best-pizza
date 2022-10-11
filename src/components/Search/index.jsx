@@ -8,10 +8,18 @@ import { SearchContext } from '../../App';
 
 const Search = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+  const onClickClearBtn = () => {
+    setSearchValue('');
+    inputRef.current.focus();
+  };
+
   return (
     <div className={styles.root}>
       <img className={styles.search_icon} src={SearchIcon} alt="Поиск" />
       <input
+        ref={inputRef}
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}
         className={styles.input}
@@ -22,7 +30,7 @@ const Search = () => {
           className={styles.clear_icon}
           src={ClearIcon}
           alt="Очистка"
-          onClick={() => setSearchValue('')}
+          onClick={onClickClearBtn}
         />
       )}
     </div>
