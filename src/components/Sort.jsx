@@ -15,15 +15,29 @@ export const sortProps = [
 export default function Sort() {
   const dispatch = useDispatch();
   const sortData = useSelector((state) => state.filter.sortData);
+  const sortRef = React.useRef();
+
   const [popupVisibility, setPopupVisibility] = React.useState(false);
 
-  const onClickCategory = (data) => {
+  const onClickSort = (data) => {
     dispatch(setSortData(data));
     setPopupVisibility(false);
   };
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setPopupVisibility(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -44,7 +58,7 @@ export default function Sort() {
             {sortProps.map((prop, i) => (
               <li
                 key={i}
-                onClick={() => onClickCategory(prop)}
+                onClick={() => onClickSort(prop)}
                 className={sortData.sortType === prop.sortType ? 'active' : ''}>
                 {prop.name}
               </li>
