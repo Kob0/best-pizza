@@ -35,7 +35,7 @@ const Home = () => {
     dispatch(setCurrentPage(num));
   };
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
 
     const category = categoryId > 0 ? `category=${categoryId}` : '';
@@ -43,14 +43,11 @@ const Home = () => {
     const sortBy = sortData.sortType.replace('-', '');
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    axios
-      .get(
-        `https://633ad404e02b9b64c6187dd2.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${sortOrder}${search}`,
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+    const response = await axios.get(
+      `https://633ad404e02b9b64c6187dd2.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${sortOrder}${search}`,
+    );
+    setItems(response.data);
+    setIsLoading(false);
   };
 
   //Если изменили параметры и был первый рендер.
