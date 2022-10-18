@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setSortData } from '../Redux/slices/filterSlice';
+import { selectSortData, setSortData } from '../Redux/slices/filterSlice';
 
 export const sortProps = [
   { name: 'популярности (убывание)', sortType: 'rating' },
@@ -12,9 +12,9 @@ export const sortProps = [
   { name: 'алфавиту (убывание)', sortType: '-title' },
 ];
 
-export default function Sort() {
+const Sort = () => {
   const dispatch = useDispatch();
-  const sortData = useSelector((state) => state.filter.sortData);
+  const sortData = useSelector(selectSortData);
   const sortRef = React.useRef();
 
   const [popupVisibility, setPopupVisibility] = React.useState(false);
@@ -68,4 +68,6 @@ export default function Sort() {
       )}
     </div>
   );
-}
+};
+
+export default Sort;
