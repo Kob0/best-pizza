@@ -7,11 +7,11 @@ import SearchIcon from '../../assets/img/search-icon.svg';
 import ClearIcon from '../../assets/img/clear-icon.svg';
 import { setSearchValue } from '../../Redux/slices/filterSlice';
 
-const Search = () => {
+const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const searchValue = useSelector((state) => state.filter.searchValue);
-  const [value, setValue] = React.useState('');
-  const inputRef = React.useRef();
+  const searchValue = useSelector((state: any) => state.filter.searchValue);
+  const [value, setValue] = React.useState<string>('');
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const updateSearchValue = React.useCallback(
     debounce((str) => {
@@ -20,7 +20,7 @@ const Search = () => {
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -28,7 +28,7 @@ const Search = () => {
   const onClickClearBtn = () => {
     dispatch(setSearchValue(''));
     setValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (

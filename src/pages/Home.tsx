@@ -13,7 +13,7 @@ import Pagination from '../components/Pagination';
 
 import '../scss/app.scss';
 
-const Home = () => {
+const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = React.useRef(false);
@@ -21,11 +21,11 @@ const Home = () => {
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, currentPage, sortData, searchValue } = useSelector(selectFilters);
 
-  const onChangeCategory = (id) => {
+  const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
   };
 
-  const onChangePage = (num) => {
+  const onChangePage = (num: number) => {
     dispatch(setCurrentPage(num));
   };
 
@@ -36,6 +36,7 @@ const Home = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({
         category,
         sortOrder,
@@ -88,7 +89,7 @@ const Home = () => {
   }, [categoryId, sortData.sortType, searchValue, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
-  const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
+  const pizzas = items.map((item: any) => <PizzaBlock key={item.id} {...item} />);
 
   return (
     <>
