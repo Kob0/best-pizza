@@ -3,12 +3,12 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSortData, setSortData } from '../Redux/slices/filterSlice';
 
-type SortPropsItem = {
+type TSortPropsItem = {
   name: string;
   sortType: string;
 };
 
-export const sortProps: SortPropsItem[] = [
+export const sortProps: TSortPropsItem[] = [
   { name: 'популярности (убывание)', sortType: 'rating' },
   { name: 'популярности (возрастание)', sortType: '-rating' },
   { name: 'цене (возрастание)', sortType: 'price' },
@@ -24,7 +24,7 @@ const Sort = () => {
 
   const [popupVisibility, setPopupVisibility] = React.useState(false);
 
-  const onClickSort = (data: SortPropsItem) => {
+  const onClickSort = (data: TSortPropsItem) => {
     dispatch(setSortData(data));
     setPopupVisibility(false);
   };
