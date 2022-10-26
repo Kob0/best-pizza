@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { useDispatch } from 'react-redux';
-import { setSortData, TSortSliceProps } from '../Redux/slices/filterSlice';
+import { setSortData } from '../Redux/slices/filter/slice';
+import { TSortSliceProps } from '../Redux/slices/filter/types';
 
 export const sortProps: TSortSliceProps[] = [
   { name: 'популярности (убывание)', sortType: 'rating' },
