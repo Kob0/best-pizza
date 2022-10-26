@@ -1,14 +1,9 @@
 import React from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSortData, setSortData } from '../Redux/slices/filterSlice';
+import { useDispatch } from 'react-redux';
+import { setSortData, TSortSliceProps } from '../Redux/slices/filterSlice';
 
-type TSortPropsItem = {
-  name: string;
-  sortType: string;
-};
-
-export const sortProps: TSortPropsItem[] = [
+export const sortProps: TSortSliceProps[] = [
   { name: 'популярности (убывание)', sortType: 'rating' },
   { name: 'популярности (возрастание)', sortType: '-rating' },
   { name: 'цене (возрастание)', sortType: 'price' },
@@ -17,14 +12,17 @@ export const sortProps: TSortPropsItem[] = [
   { name: 'алфавиту (убывание)', sortType: '-title' },
 ];
 
-const Sort = () => {
+type TSortProps = {
+  value: TSortSliceProps;
+};
+
+const Sort: React.FC<TSortProps> = React.memo(({ value }) => {
   const dispatch = useDispatch();
-  const sortData = useSelector(selectSortData);
   const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [popupVisibility, setPopupVisibility] = React.useState(false);
 
-  const onClickSort = (data: TSortPropsItem) => {
+  const onClickSort = (data: TSortSliceProps) => {
     dispatch(setSortData(data));
     setPopupVisibility(false);
   };
@@ -58,7 +56,7 @@ const Sort = () => {
             fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupVisibility(!popupVisibility)}>{sortData.name}</span>
+        <span onClick={() => setPopupVisibility(!popupVisibility)}>{value.name}</span>
       </div>
       {popupVisibility && (
         <div className="sort__popup">
@@ -67,7 +65,7 @@ const Sort = () => {
               <li
                 key={i}
                 onClick={() => onClickSort(prop)}
-                className={sortData.sortType === prop.sortType ? 'active' : ''}>
+                className={value.sortType === prop.sortType ? 'active' : ''}>
                 {prop.name}
               </li>
             ))}
@@ -76,6 +74,6 @@ const Sort = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

@@ -1,12 +1,18 @@
 import React from 'react';
 import qs from 'qs';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { selectFilters, setCategoryId, setCurrentPage } from '../Redux/slices/filterSlice';
-import { fetchPizzas, selectPizzaData } from '../Redux/slices/pizzaSlice';
+import {
+  selectFilters,
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from '../Redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaData, TFetchPizzasParams } from '../Redux/slices/pizzaSlice';
+import { useAppDispatch } from '../Redux/store';
 import Categories from '../components/Categories';
-import Sort from '../components/Sort';
+import Sort, { sortProps } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
@@ -15,15 +21,13 @@ import '../scss/app.scss';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isMounted = React.useRef(false);
 
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, currentPage, sortData, searchValue } = useSelector(selectFilters);
 
-  const onChangeCategory = (id: number) => {
-    dispatch(setCategoryId(id));
-  };
+  const onChangeCategory = React.useCallback((id: number) => dispatch(setCategoryId(id)), []);
 
   const onChangePage = (num: number) => {
     dispatch(setCurrentPage(num));
@@ -36,7 +40,6 @@ const Home: React.FC = () => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
         category,
         sortOrder,
@@ -69,19 +72,21 @@ const Home: React.FC = () => {
   }, [categoryId, sortData.sortType, currentPage]);
 
   //Если первый рендер произошел, то сверяем параметры URL и сохраняем их в Redux.
-  // React.useEffect(() => {
-  //   if (window.location.search) {
-  //     const params = qs.parse(window.location.search.substring(1));
-  //     const findSort = sortProps.find((obj) => obj.sortType === params.sortType);
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1)) as unknown as TFetchPizzasParams;
+      const sortParams = sortProps.find((obj) => obj.sortType === params.sortBy);
 
-  //     dispatch(
-  //       setFilters({
-  //         ...params,
-  //         findSort,
-  //       }),
-  //     );
-  //   }
-  // }, []);
+      dispatch(
+        setFilters({
+          searchValue: params.search,
+          categoryId: Number(params.category),
+          currentPage: params.currentPage,
+          sortData: sortParams || sortProps[0],
+        }),
+      );
+    }
+  }, []);
 
   //Если был первый рендер, то делаем запрос в БД.
   React.useEffect(() => {
@@ -95,7 +100,7 @@ const Home: React.FC = () => {
     <>
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sortData} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
