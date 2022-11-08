@@ -9,8 +9,9 @@
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 644.98px) {
+    @media (max-width: 1239.98px) {
       flex-direction: column;
+
       .header__cart {
         margin-top: 20px;
       }
@@ -34,6 +35,10 @@
 
     p {
       color: #7b7b7b;
+    }
+
+    @media (max-width: 1239.98px) {
+      margin-bottom: 10px;
     }
   }
 }
