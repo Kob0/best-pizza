@@ -32,6 +32,7 @@ const CartItem: React.FC<TCartSliceItem> = ({ id, title, price, count, imageUrl,
           {type}, {size} см.
         </p>
       </div>
+
       <div className="cart__item-count">
         <button
           disabled={count === 1}
@@ -71,7 +72,7 @@ const CartItem: React.FC<TCartSliceItem> = ({ id, title, price, count, imageUrl,
         </button>
       </div>
       <div className="cart__item-price">
-        <b>{price * count} ₽</b>
+        <b>{price * count}₽</b>
       </div>
       <div onClick={onClickRemove} className="cart__item-remove">
         <div className="button button--outline button--circle">
