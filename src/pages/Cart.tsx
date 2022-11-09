@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import CartItem from '../components/CartItem';
 import EmptyCart from '../components/EmptyCart';
+import CartSuccess from '../components/CartSuccess';
 import { selectCart } from '../Redux/slices/cart/selectors';
 import { clearItems } from '../Redux/slices/cart/slice';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector(selectCart);
+  const [paymentStatus, setPaymentStatus] = React.useState(false);
   const totalCount = items.reduce((sum: number, item: any) => (sum += item.count), 0);
 
   const onClickClear = () => {
@@ -18,6 +20,10 @@ const Cart: React.FC = () => {
 
   if (!totalPrice) {
     return <EmptyCart />;
+  }
+
+  if (paymentStatus) {
+    return <CartSuccess />;
   }
   return (
     <div className="cart">
@@ -117,7 +123,7 @@ const Cart: React.FC = () => {
 
             <span>Вернуться назад</span>
           </Link>
-          <div className="button pay-btn">
+          <div onClick={() => setPaymentStatus(true)} className="button pay-btn">
             <span>Оплатить сейчас</span>
           </div>
         </div>
