@@ -32,10 +32,10 @@ const FullPizza: React.FC = () => {
   }
 
   return (
-    <div className="container">
+    <div className="full-pizza">
       <img src={pizza.imageUrl} alt="Пицца" />
       <h2>{pizza.title}</h2>
-      <h4>{pizza.price} ₽</h4>
+      <p>{pizza.price} ₽</p>
     </div>
   );
 };
